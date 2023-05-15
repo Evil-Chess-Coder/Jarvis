@@ -1,6 +1,6 @@
 import pyttsx3
 import speech_recognition
-
+import openai
 engine = pyttsx3.init()
 voices = engine.getProperty("voices")  # 0 --- Boys and 1 -- Girls voice
 engine.setProperty("voice", voices[0].id)
@@ -16,7 +16,18 @@ def speak_data(data):
 
 
 def search_chargpt(query):
-    pass
+    openai.api_key = "YOUR API KEY"
+    result = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": query
+            }
+        ]
+    )
+    speakThis = result.choices[0].message.content
+    speak_data(speakThis)
 
 
 while True:
